@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.AlgaePivot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CoralIntakeSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Lights;
 
@@ -50,8 +52,13 @@ public class RobotContainer {
     private final Joystick joystick = new Joystick(1); 
 
     /* * * SUBSYSTEMS * * */
-    // CORAL PIVOT 
+    // CORAL PIVOT
+    private SparkMax intakeMotor = new SparkMax(8, MotorType.kBrushless);
     private final SparkMax coralPivot = new SparkMax(7, MotorType.kBrushless);
+    private final CoralIntakeSubsystem coralIntakeSub = new CoralIntakeSubsystem(intakeMotor);
+    private final CoralPivotSubsystem coralPivotSub = new CoralPivotSubsystem(intakeMotor.getForwardLimitSwitch(), coralPivot);
+  
+    
     // ALGAE PIVOT 
     private final AlgaePivot algaePivotSub = new AlgaePivot(coralPivot.getForwardLimitSwitch());
     // ELEVATOR 
