@@ -19,7 +19,7 @@ public class Tuck extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    algaePivotSub.toSetpoint(0);
+    algaePivotSub.toSetpoint(-0.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -2,24 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.AlgaePivotStates;
+package frc.robot.commands.ElevatorStates;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AlgaePivot;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Barge extends Command {
-  AlgaePivot algaePivotSub;
+public class HighDescoreState extends Command {
+  ElevatorSubsystem elevatorSub;
 
-  public Barge(AlgaePivot newAlgaePivotSub) {
-    algaePivotSub = newAlgaePivotSub;
-    addRequirements(algaePivotSub);
+  public HighDescoreState(ElevatorSubsystem newElevatorSub) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    elevatorSub = newElevatorSub;
+    addRequirements(elevatorSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    algaePivotSub.toSetpoint(23);
+    elevatorSub.setSetpoint(42);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,6 +34,6 @@ public class Barge extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return algaePivotSub.isAtSetpoint();
-  } 
+    return elevatorSub.atSetpoint();
+  }
 }

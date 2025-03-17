@@ -24,7 +24,7 @@ public class StorageState extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevSub.setSetpoint(20);
+    elevSub.setSetpoint(12);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -15,7 +15,7 @@ public final class Constants {
     public static final int kAlgaePivotID = 14;
     
     //Important Values
-    public static final double kTolerance = 0.0;
+    public static final double kTolerance = 1;
     
     //Configurations
     public static TalonFXConfiguration AlgaePivotConfiguration = new TalonFXConfiguration();
@@ -25,7 +25,7 @@ public final class Constants {
       AlgaePivotConfiguration.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       
       AlgaePivotConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      AlgaePivotConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 22;
+      AlgaePivotConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 23;
 
       AlgaePivotConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       AlgaePivotConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;

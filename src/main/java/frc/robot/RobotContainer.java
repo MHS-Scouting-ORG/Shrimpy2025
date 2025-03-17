@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,10 +37,13 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import frc.robot.Telemetry;
 import frc.robot.commands.AlgaePivotStates.Tuck;
 import frc.robot.commands.AlgaeShooterStates.AlgaeIntake;
+import frc.robot.commands.AlgaeShooterStates.AlgaeShoot;
 import frc.robot.commands.CoralStates.CoralDeployerCommand;
 import frc.robot.commands.CoralStates.CoralIntakeCommand;
 import frc.robot.commands.ElevatorStates.L2State;
 import frc.robot.commands.ElevatorStates.L3State;
+import frc.robot.commands.IntegratedStates.AlgaeGroundPickupCommand;
+import frc.robot.commands.IntegratedStates.BargeSequenceCommand;
 import frc.robot.commands.IntegratedStates.FullTuckCommand;
 import frc.robot.commands.IntegratedStates.HighDealgifyCommand;
 import frc.robot.commands.IntegratedStates.L4SequenceCommand;
@@ -131,19 +135,18 @@ public class RobotContainer {
     xbox.x().whileTrue(new InstantCommand(() -> lights.setSolidColor(0, 2, 61))); 
     xbox.x().whileFalse(new InstantCommand(() -> lights.off())); 
 
+    // ALGAE GROUND 
+    xbox.a().onTrue(new AlgaeGroundPickupCommand(elevatorSub, algaePivotSub)); 
+
     /////////////////////////////////
     ///     OPERATOR CONTROLS     ///
     /////////////////////////////////
     
-    // IF BALL HELD TUCK WITH ALGAE 
-    if (algaeShooterSubsystem.ballHeld == true) {
-      new JoystickButton(joystick, 12).onTrue(new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
-    } else {
-      new JoystickButton(joystick, 12).onTrue(new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
-    }
+    new JoystickButton(joystick, 12).onTrue(new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
+    new JoystickButton(joystick, 4).onTrue(new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub));
 
     // PROCESSOR 
-    new JoystickButton(joystick, 12).onTrue(new ProcessorSequenceCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
+    new JoystickButton(joystick, 3).onTrue(new ProcessorSequenceCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
 
     // SCORING W/O DEALGIFYING 
     new JoystickButton(joystick, 7).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub)); 
@@ -151,15 +154,26 @@ public class RobotContainer {
     new JoystickButton(joystick, 11).onTrue(new L2State(elevatorSub)); 
 
     // DEALGIFY 
-    new JoystickButton(joystick, 8).onTrue(new HighDealgifyCommand(elevatorSub, algaePivotSub)); 
-    new JoystickButton(joystick, 10).onTrue(new LowDealgifyCommand(elevatorSub, algaePivotSub)); 
+    new JoystickButton(joystick, 8).onTrue(new HighDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
+    new JoystickButton(joystick, 10).onTrue(new LowDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
 
     // ALGAE TUCK 
     new JoystickButton(joystick, 1).onTrue(new  Tuck(algaePivotSub)); 
 
+    // BARGE
+    new JoystickButton(joystick, 6).onTrue(new BargeSequenceCommand(elevatorSub, algaePivotSub));
+
     // ALGAE INTAKE OVERRIDE 
     new JoystickButton(joystick, 2).whileTrue(new AlgaeIntake(algaeShooterSubsystem)); 
     new JoystickButton(joystick, 2).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
+    new JoystickButton(joystick, 5).whileTrue(new AlgaeShoot(algaeShooterSubsystem)); 
+    new JoystickButton(joystick, 5).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
+
+    // CORAL INTAKE
+    xbox.leftBumper().whileTrue(new CoralIntakeCommand(coralIntakeSub));
+    xbox.leftBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
+    xbox.rightBumper().whileTrue(new CoralDeployerCommand(coralIntakeSub));
+    xbox.rightBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
     
 
     // TESTING L4 
