@@ -19,7 +19,7 @@ public class Processor extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    algaePivotSub.toSetpoint(14);
+    algaePivotSub.toSetpoint(16);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
