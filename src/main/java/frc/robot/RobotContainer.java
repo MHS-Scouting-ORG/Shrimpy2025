@@ -34,11 +34,16 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import frc.robot.Telemetry;
+import frc.robot.commands.AlgaePivotStates.Tuck;
 import frc.robot.commands.AlgaeShooterStates.AlgaeIntake;
 import frc.robot.commands.CoralStates.CoralDeployerCommand;
 import frc.robot.commands.CoralStates.CoralIntakeCommand;
+import frc.robot.commands.ElevatorStates.L2State;
+import frc.robot.commands.ElevatorStates.L3State;
 import frc.robot.commands.IntegratedStates.FullTuckCommand;
+import frc.robot.commands.IntegratedStates.HighDealgifyCommand;
 import frc.robot.commands.IntegratedStates.L4SequenceCommand;
+import frc.robot.commands.IntegratedStates.LowDealgifyCommand;
 import frc.robot.commands.IntegratedStates.ProcessorSequenceCommand;
 import frc.robot.commands.IntegratedStates.TuckWithAlgaeCommand;
 
@@ -83,7 +88,7 @@ public class RobotContainer {
     private final Lights lights = new Lights(); 
 
     //LIGHT TRIGGER 
-    public final Trigger intakeCoralTrigger = new Trigger(() -> coralIntakeSub.getOpticalSensor());
+    // public final Trigger intakeCoralTrigger = new Trigger(() -> coralIntakeSub.get);
 
 
   public RobotContainer() {
@@ -141,6 +146,20 @@ public class RobotContainer {
     new JoystickButton(joystick, 12).onTrue(new ProcessorSequenceCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
 
     // SCORING W/O DEALGIFYING 
+    new JoystickButton(joystick, 7).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub)); 
+    new JoystickButton(joystick, 9).onTrue(new L3State(elevatorSub)); 
+    new JoystickButton(joystick, 11).onTrue(new L2State(elevatorSub)); 
+
+    // DEALGIFY 
+    new JoystickButton(joystick, 8).onTrue(new HighDealgifyCommand(elevatorSub, algaePivotSub)); 
+    new JoystickButton(joystick, 10).onTrue(new LowDealgifyCommand(elevatorSub, algaePivotSub)); 
+
+    // ALGAE TUCK 
+    new JoystickButton(joystick, 1).onTrue(new  Tuck(algaePivotSub)); 
+
+    // ALGAE INTAKE OVERRIDE 
+    new JoystickButton(joystick, 2).whileTrue(new AlgaeIntake(algaeShooterSubsystem)); 
+    new JoystickButton(joystick, 2).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
     
 
     // TESTING L4 
@@ -154,8 +173,8 @@ public class RobotContainer {
     // xbox.rightBumper().whileFalse(new InstantCommand(() -> coralPivotSub.stop()));
 
     /* * * TRIGGERS * * */
-    intakeCoralTrigger.whileTrue(new InstantCommand(() -> lights.setSolidColor(255, 239, 2))); 
-    intakeCoralTrigger.whileFalse(new InstantCommand( () -> lights.off()));
+    // intakeCoralTrigger.whileTrue(new InstantCommand(() -> lights.setSolidColor(255, 239, 2))); 
+    // intakeCoralTrigger.whileFalse(new InstantCommand( () -> lights.off()));
 
   }
 
