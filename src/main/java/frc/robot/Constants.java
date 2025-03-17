@@ -25,12 +25,12 @@ public final class Constants {
       AlgaePivotConfiguration.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       
       AlgaePivotConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      AlgaePivotConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 2.0;
+      AlgaePivotConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 22;
 
       AlgaePivotConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       AlgaePivotConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;
 
-      AlgaePivotConfiguration.Slot0.kG = 0.5;
+      AlgaePivotConfiguration.Slot0.kG = 1.0;
       AlgaePivotConfiguration.Slot0.kS = 0.48046875;
       AlgaePivotConfiguration.Slot0.kV = 0.0; 
       AlgaePivotConfiguration.Slot0.kA = 0.0;
@@ -41,7 +41,7 @@ public final class Constants {
       AlgaePivotConfiguration.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
       AlgaePivotConfiguration.Slot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseClosedLoopSign;
 
-      AlgaePivotMMConfiguration.MotionMagicCruiseVelocity = 16.0;
+      AlgaePivotMMConfiguration.MotionMagicCruiseVelocity = 32.0;
       AlgaePivotMMConfiguration.MotionMagicAcceleration = 256.0;
       AlgaePivotMMConfiguration.MotionMagicExpo_kV = 0.11999999731779099;
       AlgaePivotMMConfiguration.MotionMagicExpo_kA = 0.10000000149011612;
@@ -62,6 +62,14 @@ public final class Constants {
     public static final TalonFXConfiguration elevConfigs = new TalonFXConfiguration();
     public static final MotionMagicConfigs elevMMConfigs = new MotionMagicConfigs();
     static {
+      
+
+        elevConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        elevConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 53;
+
+        elevConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        elevConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;
+
         elevConfigs.CurrentLimits.StatorCurrentLimit = 120;
         elevConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         elevConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;

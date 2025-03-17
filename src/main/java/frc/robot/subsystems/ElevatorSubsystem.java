@@ -127,7 +127,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     // If pid is on, runs pid code to set output
     // if (pidOn) {
-      elevatorMotor.setControl(motionRequest.withPosition(setpoint));
+    elevatorMotor.setControl(motionRequest.withPosition(setpoint));
     // }
 
     // If pid is off, runs manual control
@@ -137,17 +137,17 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     // Stops elevator if it hits bottom limit switch and is moving in the same
     // direction
-    if (getBottomLimitSwitch() && (output < 0 || elevatorMotor.getMotorVoltage().getValueAsDouble() < 0)) {
-      output = 0;
-      setpoint = 0;
-    }
-    // Sets setpoint to current encoder value if elevator hits top limit switch
-    else if (getTopLimitSwitch() && (output > 0 || elevatorMotor.getMotorVoltage().getValueAsDouble() > 0)) {
-      setpoint = getEncoder();
-    }
+    // if (getBottomLimitSwitch() && (output < 0 || elevatorMotor.getMotorVoltage().getValueAsDouble() < 0)) {
+    //   output = 0;
+    //   setpoint = 0;
+    // }
+    // // Sets setpoint to current encoder value if elevator hits top limit switch
+    // else if (getTopLimitSwitch() && (output > 0 || elevatorMotor.getMotorVoltage().getValueAsDouble() > 0)) {
+    //   setpoint = getEncoder();
+    // }
 
     // Final call to set output
-    elevatorMotor.set(output);
+    // elevatorMotor.set(output);
 
     // SmartDashboard
     SmartDashboard.putNumber("[E] Enc", getEncoder());

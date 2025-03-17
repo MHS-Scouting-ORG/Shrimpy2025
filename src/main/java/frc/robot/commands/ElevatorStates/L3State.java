@@ -24,7 +24,7 @@ public class L3State extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevSub.setSetpoint(0);
+    elevSub.setSetpoint(22);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

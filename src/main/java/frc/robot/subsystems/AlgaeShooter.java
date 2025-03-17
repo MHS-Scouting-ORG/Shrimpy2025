@@ -22,12 +22,12 @@ public class AlgaeShooter extends SubsystemBase {
     algaeMotor.setNeutralMode(NeutralModeValue.Coast);
     ballHeld = false;
       if (!ballHeld) {
-          algaeMotor.set(-.6); // Full speed intake
+          algaeMotor.set(-1); // Full speed intake
       }
   }
 
   public void checkMotorStall() {
-      if (algaeMotor.getStatorCurrent().getValueAsDouble() > 15 && algaeMotor.get() < -0.08) {  //check the direction )    // replace with .getOutPutCurrent for sparks
+      if (algaeMotor.getStatorCurrent().getValueAsDouble() > 20 && algaeMotor.get() < -0.08) {  //check the direction )    // replace with .getOutPutCurrent for sparks
           algaeMotor.set(0); // Stop the motor
           algaeMotor.setNeutralMode(NeutralModeValue.Brake);
           ballHeld = true;
@@ -42,7 +42,7 @@ public class AlgaeShooter extends SubsystemBase {
   public void algaeOutake() {
     
         ballHeld = false;
-        algaeMotor.set(.6); // Reverse to shoot the algae
+        algaeMotor.set(1); // Reverse to shoot the algae
       
 
   }
