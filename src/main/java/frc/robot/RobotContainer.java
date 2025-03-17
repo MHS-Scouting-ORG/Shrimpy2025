@@ -14,9 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -38,6 +41,7 @@ import frc.robot.commands.AlgaePivotStates.Tuck;
 import frc.robot.commands.AlgaeShooterStates.AlgaeIntake;
 import frc.robot.commands.CoralStates.CoralDeployerCommand;
 import frc.robot.commands.CoralStates.CoralIntakeCommand;
+import frc.robot.commands.CoralStates.L2AndL3PosCommand;
 import frc.robot.commands.ElevatorStates.L2State;
 import frc.robot.commands.ElevatorStates.L3State;
 import frc.robot.commands.IntegratedStates.FullTuckCommand;
@@ -183,6 +187,13 @@ public class RobotContainer {
   }
 
   public void registerNamedCommands() {
+    NamedCommands.registerCommand("L4", new L4SequenceCommand(elevatorSub, coralPivotSub));
 
+    NamedCommands.registerCommand("seqTuck", new SequentialCommandGroup(
+      new L2AndL3PosCommand(coralPivotSub), 
+      new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)
+    ));
+
+    NamedCommands.registerCommand("outtake", new CoralDeployerCommand(coralIntakeSub));
   }
 }
