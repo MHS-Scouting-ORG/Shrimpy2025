@@ -95,8 +95,8 @@ public final class Constants {
     public static final double CORAL_DEPLOY_SPEED = 1;
     public static final double CORAL_OUTTAKE_SPEED = 0;
 
-    public static final double CORAL_PIVOT_UP_SPEED = 1;
-    public static final double CORAL_PIVOT_DOWN_SPEED = -1;
+    public static final double CORAL_PIVOT_UP_SPEED = 0.6;
+    public static final double CORAL_PIVOT_DOWN_SPEED = -0.6;
 
     public static final double HANG_RAISE_SPEED = 0.4;
     public static final double HANG_LOWER_SPEED = -0.4;
@@ -113,7 +113,7 @@ public final class Constants {
 
     // PIVOT PID VALUES
 
-    public static final double kPIVOT_P = 0.01;
+    public static final double kPIVOT_P = 0.1;
     public static final double kPIVOT_I = 0;
     public static final double kPIVOT_D = 0;
     }
