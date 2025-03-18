@@ -38,6 +38,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import frc.robot.Telemetry;
+import frc.robot.commands.AlgaePivotStates.Storage;
 import frc.robot.commands.AlgaePivotStates.Tuck;
 import frc.robot.commands.AlgaeShooterStates.AlgaeIntake;
 import frc.robot.commands.AlgaeShooterStates.AlgaeShoot;
@@ -46,6 +47,7 @@ import frc.robot.commands.CoralStates.CoralIntakeCommand;
 import frc.robot.commands.CoralStates.L2AndL3PosCommand;
 import frc.robot.commands.ElevatorStates.L2State;
 import frc.robot.commands.ElevatorStates.L3State;
+import frc.robot.commands.ElevatorStates.StorageState;
 import frc.robot.commands.IntegratedStates.AlgaeGroundPickupCommand;
 import frc.robot.commands.IntegratedStates.BargeSequenceCommand;
 import frc.robot.commands.IntegratedStates.FullTuckCommand;
@@ -142,11 +144,29 @@ public class RobotContainer {
     // ALGAE GROUND 
     xbox.a().onTrue(new AlgaeGroundPickupCommand(elevatorSub, algaePivotSub)); 
 
+    // ALGAE OUTTAKE 
+    xbox.b().whileTrue(new AlgaeShoot(algaeShooterSubsystem)); 
+    xbox.b().whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake())); 
+
+    // CORAL INTAKE 
+    xbox.rightBumper().whileTrue(new CoralIntakeCommand(coralIntakeSub));
+    xbox.rightBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
+    // CORAL OUTTAKE 
+    xbox.leftBumper().whileTrue(new CoralDeployerCommand(coralIntakeSub));
+    xbox.leftBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
+
+    // BARGE
+    xbox.y().onTrue(new BargeSequenceCommand(elevatorSub, algaePivotSub));
+
     /////////////////////////////////
     ///     OPERATOR CONTROLS     ///
     /////////////////////////////////
+    /// 
+    /// 
     
+    // TUCK 
     new JoystickButton(joystick, 12).onTrue(new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
+    // TUCK W ALGAE 
     new JoystickButton(joystick, 4).onTrue(new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub));
 
     // PROCESSOR 
@@ -162,22 +182,11 @@ public class RobotContainer {
     new JoystickButton(joystick, 10).onTrue(new LowDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
 
     // ALGAE TUCK 
-    new JoystickButton(joystick, 1).onTrue(new  Tuck(algaePivotSub)); 
+    new JoystickButton(joystick, 1).onTrue(new Tuck(algaePivotSub)); 
 
-    // BARGE
-    new JoystickButton(joystick, 6).onTrue(new BargeSequenceCommand(elevatorSub, algaePivotSub));
-
-    // ALGAE INTAKE OVERRIDE 
+    // ALGAE INTAKE 
     new JoystickButton(joystick, 2).whileTrue(new AlgaeIntake(algaeShooterSubsystem)); 
     new JoystickButton(joystick, 2).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
-    new JoystickButton(joystick, 5).whileTrue(new AlgaeShoot(algaeShooterSubsystem)); 
-    new JoystickButton(joystick, 5).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
-
-    // CORAL INTAKE
-    xbox.leftBumper().whileTrue(new CoralIntakeCommand(coralIntakeSub));
-    xbox.leftBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
-    xbox.rightBumper().whileTrue(new CoralDeployerCommand(coralIntakeSub));
-    xbox.rightBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
     
 
     // TESTING L4 
@@ -208,6 +217,22 @@ public class RobotContainer {
       new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)
     ));
 
+    NamedCommands.registerCommand("lowDealgify", new LowDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub));
+
     NamedCommands.registerCommand("outtake", new CoralDeployerCommand(coralIntakeSub));
+
+    NamedCommands.registerCommand("intake", new CoralIntakeCommand(coralIntakeSub));
+
+    NamedCommands.registerCommand("algaeIntake", new AlgaeIntake(algaeShooterSubsystem));
+
+    NamedCommands.registerCommand("algaeTuck", new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub));
+
+    NamedCommands.registerCommand("barge", new BargeSequenceCommand(elevatorSub, algaePivotSub));
+
+    NamedCommands.registerCommand("algaeShoot", new AlgaeShoot(algaeShooterSubsystem));
+
+    NamedCommands.registerCommand("fullTuck", new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub));
+
+    NamedCommands.registerCommand("elevDealgify", new StorageState(elevatorSub));
   }
 }

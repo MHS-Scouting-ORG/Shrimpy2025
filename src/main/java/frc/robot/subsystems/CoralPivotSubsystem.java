@@ -34,6 +34,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
     coralPivot.configure(config, null, null);
 
     coralPivotPidController = new PIDController(CoralConstants.kPIVOT_P, CoralConstants.kPIVOT_I, CoralConstants.kPIVOT_D);
+    coralPivotPidController.setTolerance(3);
 
   }
 

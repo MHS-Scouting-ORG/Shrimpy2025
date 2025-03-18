@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "right-to-farC"
+            "pathName": "mid-to-farB"
           }
         },
         {
@@ -40,15 +40,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "seqTuck"
+                  "pathName": "farB-back"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "farC-to-rcs"
+                  "name": "elevDealgify"
                 }
               }
             ]
@@ -57,19 +57,57 @@
         {
           "type": "named",
           "data": {
-            "name": "intake"
+            "name": "lowDealgify"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "back-farB"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "algaeIntake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rcs-to-closeC"
+            "pathName": "farBmid-back"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "algaeTuck"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "back-to-barge"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "L4"
+            "name": "barge"
           }
         },
         {
@@ -79,7 +117,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "outtake"
+                  "name": "algaeShoot"
                 }
               },
               {
@@ -94,7 +132,7 @@
         {
           "type": "named",
           "data": {
-            "name": "seqTuck"
+            "name": "fullTuck"
           }
         }
       ]
