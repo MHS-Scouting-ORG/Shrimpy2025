@@ -82,8 +82,8 @@ public final class Constants {
         elevConfigs.Slot0.kP = 1.0;  
         elevConfigs.Slot0.kI = 0.0;  
         elevConfigs.Slot0.kD = 0.0;  
-        elevMMConfigs.MotionMagicCruiseVelocity = 48;    
-        elevMMConfigs.MotionMagicAcceleration = 128;
+        elevMMConfigs.MotionMagicCruiseVelocity = 120;    
+        elevMMConfigs.MotionMagicAcceleration = 148;
         elevMMConfigs.MotionMagicExpo_kA = 0.10000000149011612;
         elevMMConfigs.MotionMagicExpo_kV =0.11999999731779099; 
     }
