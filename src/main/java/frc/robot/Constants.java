@@ -92,7 +92,7 @@ public final class Constants {
   public static class CoralConstants{
      // Speeds
     public static final double CORAL_INTAKE_SPEED = 0.8;
-    public static final double CORAL_DEPLOY_SPEED = 0.8;
+    public static final double CORAL_DEPLOY_SPEED = 1;
     public static final double CORAL_OUTTAKE_SPEED = 0;
 
     public static final double CORAL_PIVOT_UP_SPEED = 1;
