@@ -101,6 +101,8 @@ public class RobotContainer {
 
     public final Trigger readyToShoot = new Trigger(() -> (coralPivotSub.atSetpoint() && algaePivotSub.isAtSetpoint() && elevatorSub.atSetpoint() && elevatorSub.getEncoder() > 0)); 
 
+    public final Trigger elevUp = new Trigger(() -> elevatorSub.getEncoder() > 30); 
+
 
   public RobotContainer() {
     registerNamedCommands(); 
@@ -129,6 +131,14 @@ public class RobotContainer {
           .withRotationalRate(-xbox.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
       )
     );
+
+    // elevUp.whileTrue(
+    //   drivetrain.applyRequest(() ->
+    //     drive.withVelocityX(-xbox.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
+    //       .withVelocityY(-xbox.getLeftX() * MaxSpeed * 0.5) // Drive left with negative X (left)
+    //       .withRotationalRate(-xbox.getRightX() * MaxAngularRate * 0.8) // Drive counterclockwise with negative X (left)
+    //   )
+    // );
 
     //ROBOT CENTRIC / ALIGN REEF 
     xbox.x().whileTrue(
