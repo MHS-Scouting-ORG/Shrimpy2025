@@ -97,7 +97,9 @@ public class RobotContainer {
     private final Lights lights = new Lights(); 
 
     //LIGHT TRIGGER 
-    // public final Trigger intakeCoralTrigger = new Trigger(() -> coralIntakeSub.get);
+    public final Trigger intakeCoralTrigger = new Trigger(() -> coralIntakeSub.getOpticalSensor());
+
+    public final Trigger readyToShoot = new Trigger(() -> (coralPivotSub.atSetpoint() && algaePivotSub.isAtSetpoint() && elevatorSub.atSetpoint() && elevatorSub.getEncoder() > 0)); 
 
 
   public RobotContainer() {
@@ -186,21 +188,12 @@ public class RobotContainer {
     // ALGAE INTAKE 
     new JoystickButton(joystick, 2).whileTrue(new AlgaeIntake(algaeShooterSubsystem)); 
     new JoystickButton(joystick, 2).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
-    
-
-    // TESTING L4 
-    // xbox.y().onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub)); 
-    // xbox.a().onTrue(new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
-
-    // xbox.leftBumper().whileTrue(new CoralIntakeCommand(coralIntakeSub)); 
-    // xbox.leftBumper().whileFalse(new InstantCommand(() -> coralPivotSub.stop())); 
-
-    // xbox.rightBumper().whileTrue(new CoralDeployerCommand(coralIntakeSub)); 
-    // xbox.rightBumper().whileFalse(new InstantCommand(() -> coralPivotSub.stop()));
 
     /* * * TRIGGERS * * */
-    // intakeCoralTrigger.whileTrue(new InstantCommand(() -> lights.setSolidColor(255, 239, 2))); 
-    // intakeCoralTrigger.whileFalse(new InstantCommand( () -> lights.off()));
+    intakeCoralTrigger.whileTrue(new InstantCommand(() -> lights.setSolidColor(255, 239, 2))); 
+    intakeCoralTrigger.whileFalse(new InstantCommand( () -> lights.off()));
+
+    readyToShoot.whileTrue(new InstantCommand(() -> lights.setSolidColor(124,252,0)));
 
   }
 
