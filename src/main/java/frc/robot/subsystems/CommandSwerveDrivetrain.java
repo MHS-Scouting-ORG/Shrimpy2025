@@ -26,12 +26,13 @@ import edu.wpi.first.units.VoltageUnit;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
+import frc.robot.LimelightHelpers;
 import frc.robot.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -265,6 +266,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+
+        SmartDashboard.putNumber("TARGET TAG", LimelightHelpers.getFiducialID("limelight")); 
+        SmartDashboard.putNumber("LL TX", LimelightHelpers.getFiducialID("limelight")); 
     }
 
     private void startSimThread() {
