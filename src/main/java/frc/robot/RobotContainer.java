@@ -50,7 +50,9 @@ import frc.robot.commands.IntegratedStates.AlgaeGroundPickupCommand;
 import frc.robot.commands.IntegratedStates.BargeSequenceCommand;
 import frc.robot.commands.IntegratedStates.FullTuckCommand;
 import frc.robot.commands.IntegratedStates.HighDealgifyCommand;
-import frc.robot.commands.IntegratedStates.L4AutoScoreCommand;
+import frc.robot.commands.IntegratedStates.L2AutomaticCommand;
+import frc.robot.commands.IntegratedStates.L3AutomaticCommand;
+import frc.robot.commands.IntegratedStates.L4AutomaticCommand;
 import frc.robot.commands.IntegratedStates.L4SequenceCommand;
 import frc.robot.commands.IntegratedStates.LowDealgifyCommand;
 import frc.robot.commands.IntegratedStates.ProcessorSequenceCommand;
@@ -175,19 +177,15 @@ public class RobotContainer {
     ///     OPERATOR CONTROLS     ///
     /////////////////////////////////
     
-    // TUCK 
-    // new JoystickButton(joystick, 12).onTrue(new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
-    // TUCK W ALGAE 
-    // new JoystickButton(joystick, 4).onTrue(new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub));
-    new JoystickButton(joystick, 4).onTrue(new L4AutoScoreCommand(elevatorSub, coralPivotSub, algaePivotSub, coralIntakeSub)); 
-
     // PROCESSOR 
     new JoystickButton(joystick, 3).onTrue(new ProcessorSequenceCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
 
     // SCORING W/O DEALGIFYING 
-    new JoystickButton(joystick, 7).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub)); 
-    new JoystickButton(joystick, 9).onTrue(new L3State(elevatorSub)); 
-    new JoystickButton(joystick, 11).onTrue(new L2State(elevatorSub)); 
+    // new JoystickButton(joystick, 7).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub));
+    new JoystickButton(joystick, 4).onTrue(new L4AutomaticCommand(elevatorSub, coralPivotSub, algaePivotSub, coralIntakeSub));  
+    
+    new JoystickButton(joystick, 7).onTrue(new L3AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
+    new JoystickButton(joystick, 9).onTrue(new L2AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
 
     // DEALGIFY 
     new JoystickButton(joystick, 8).onTrue(new HighDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
