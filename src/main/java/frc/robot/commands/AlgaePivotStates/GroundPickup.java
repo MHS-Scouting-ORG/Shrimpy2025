@@ -19,7 +19,7 @@ public class GroundPickup extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    algaePivotSub.toSetpoint(13);
+    algaePivotSub.toSetpoint(12);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
