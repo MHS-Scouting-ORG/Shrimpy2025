@@ -267,8 +267,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             });
         }
 
-        SmartDashboard.putNumber("TARGET TAG", LimelightHelpers.getFiducialID("limelight")); 
-        SmartDashboard.putNumber("LL TX", LimelightHelpers.getFiducialID("limelight")); 
+        SmartDashboard.putNumber("TAG ID ", LimelightHelpers.getFiducialID("limelight")); 
+        // SmartDashboard.putNumber("LL TX", LimelightHelpers.getFiducialID("limelight")); 
     }
 
     private void startSimThread() {

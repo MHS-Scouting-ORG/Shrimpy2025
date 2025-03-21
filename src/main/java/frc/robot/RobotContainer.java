@@ -50,10 +50,13 @@ import frc.robot.commands.IntegratedStates.AlgaeGroundPickupCommand;
 import frc.robot.commands.IntegratedStates.BargeSequenceCommand;
 import frc.robot.commands.IntegratedStates.FullTuckCommand;
 import frc.robot.commands.IntegratedStates.HighDealgifyCommand;
+import frc.robot.commands.IntegratedStates.L4AutoScoreCommand;
 import frc.robot.commands.IntegratedStates.L4SequenceCommand;
 import frc.robot.commands.IntegratedStates.LowDealgifyCommand;
 import frc.robot.commands.IntegratedStates.ProcessorSequenceCommand;
 import frc.robot.commands.IntegratedStates.TuckWithAlgaeCommand;
+import frc.robot.commands.SwerveStates.AlignModeCommand;
+
 import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
@@ -124,7 +127,6 @@ public class RobotContainer {
 
     // FIELD CENTRIC DEFAULT COMMAND 
     drivetrain.setDefaultCommand(
-      // Drivetrain will execute this command periodically
       drivetrain.applyRequest(() ->
         drive.withVelocityX(-xbox.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
           .withVelocityY(-xbox.getLeftX() * MaxSpeed) // Drive left with negative X (left)
@@ -132,21 +134,21 @@ public class RobotContainer {
       )
     );
 
-    // elevUp.whileTrue(
-    //   drivetrain.applyRequest(() ->
-    //     drive.withVelocityX(-xbox.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
-    //       .withVelocityY(-xbox.getLeftX() * MaxSpeed * 0.5) // Drive left with negative X (left)
-    //       .withRotationalRate(-xbox.getRightX() * MaxAngularRate * 0.8) // Drive counterclockwise with negative X (left)
-    //   )
-    // );
-
-    //ROBOT CENTRIC / ALIGN REEF 
+    // //ROBOT CENTRIC / ALIGN REEF 
     xbox.x().whileTrue(
       drivetrain.applyRequest(() -> 
           driveRobotCentric.withVelocityX(-xbox.getLeftY() * MaxSpeed * 0.5)
           .withVelocityY(-xbox.getLeftX() * MaxSpeed * 0.5)
           .withRotationalRate(-xbox.getRightX() * MaxAngularRate * 0.75))
     );
+
+    /* * * TESTING * * */
+    // ALIGN REEF FIELD CENTRIC 
+    xbox.back().whileTrue(new AlignModeCommand(drivetrain, 
+      () -> xbox.getLeftY(), 
+      () -> xbox.getLeftX(), 
+      () -> xbox.getRightX()
+    )); 
 
     //LIGHTS FOR ALIGN MODE 
     xbox.x().whileTrue(new InstantCommand(() -> lights.setSolidColor(0, 2, 61))); 
@@ -172,13 +174,12 @@ public class RobotContainer {
     /////////////////////////////////
     ///     OPERATOR CONTROLS     ///
     /////////////////////////////////
-    /// 
-    /// 
     
     // TUCK 
-    new JoystickButton(joystick, 12).onTrue(new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
+    // new JoystickButton(joystick, 12).onTrue(new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
     // TUCK W ALGAE 
-    new JoystickButton(joystick, 4).onTrue(new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub));
+    // new JoystickButton(joystick, 4).onTrue(new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub));
+    new JoystickButton(joystick, 4).onTrue(new L4AutoScoreCommand(elevatorSub, coralPivotSub, algaePivotSub, coralIntakeSub)); 
 
     // PROCESSOR 
     new JoystickButton(joystick, 3).onTrue(new ProcessorSequenceCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
@@ -195,6 +196,17 @@ public class RobotContainer {
     // ALGAE TUCK 
     new JoystickButton(joystick, 1).onTrue(new Tuck(algaePivotSub)); 
 
+    // TUCKING TEST 
+    new JoystickButton(joystick, 12).and(
+      () -> algaeShooterSubsystem.ballHeld).onTrue(
+        new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub)); //FIXME tucking test
+
+    new JoystickButton(joystick, 12).and(
+      () -> !algaeShooterSubsystem.ballHeld).onTrue(
+        new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); //FIXME tucking test
+
+    // 
+
     // ALGAE INTAKE 
     new JoystickButton(joystick, 2).whileTrue(new AlgaeIntake(algaeShooterSubsystem)); 
     new JoystickButton(joystick, 2).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
@@ -203,7 +215,7 @@ public class RobotContainer {
     intakeCoralTrigger.whileTrue(new InstantCommand(() -> lights.setSolidColor(255, 239, 2))); 
     intakeCoralTrigger.whileFalse(new InstantCommand( () -> lights.off()));
 
-    readyToShoot.whileTrue(new InstantCommand(() -> lights.setSolidColor(124,252,0)));
+    // readyToShoot.whileTrue(new InstantCommand(() -> lights.setSolidColor(124,252,0)));
 
   }
 
