@@ -8,19 +8,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class HighDescoreState extends Command {
-  ElevatorSubsystem elevatorSub;
+public class LowDescoreState extends Command {
+  
+  ElevatorSubsystem elevSub;
 
-  public HighDescoreState(ElevatorSubsystem newElevatorSub) {
+  /** Creates a new TuckState. */
+  public LowDescoreState(ElevatorSubsystem newElevSub) {
     // Use addRequirements() here to declare subsystem dependencies.
-    elevatorSub = newElevatorSub;
-    addRequirements(elevatorSub);
+
+    elevSub = newElevSub;
+
+    addRequirements(elevSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevatorSub.setSetpoint(38);
+    elevSub.setSetpoint(18);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,6 +38,6 @@ public class HighDescoreState extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return elevatorSub.atSetpoint();
+    return elevSub.atSetpoint();
   }
 }
