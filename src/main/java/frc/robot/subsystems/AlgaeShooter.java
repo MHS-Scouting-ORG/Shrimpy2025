@@ -43,7 +43,7 @@ public class AlgaeShooter extends SubsystemBase {
 //   }
 
 public boolean checkMotorStall() {
-    if (algaeMotor.getStatorCurrent().getValueAsDouble() > 20 && algaeMotor.get() < -0.08) {  //check the direction )    // replace with .getOutPutCurrent for sparks
+    if (algaeMotor.getStatorCurrent().getValueAsDouble() > 30 && algaeMotor.get() < -0.08) {  //check the direction )    // replace with .getOutPutCurrent for sparks
         algaeMotor.set(0); // Stop the motor
         algaeMotor.setNeutralMode(NeutralModeValue.Brake);
         ballHeld = true;
