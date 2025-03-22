@@ -70,7 +70,8 @@ public final class Constants {
         elevConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
         elevConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;
 
-        elevConfigs.CurrentLimits.StatorCurrentLimit = 120;
+        elevConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+        elevConfigs.CurrentLimits.StatorCurrentLimit = 100;
         elevConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         elevConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         elevConfigs.Slot0.GravityType = GravityTypeValue.Elevator_Static;
@@ -83,7 +84,7 @@ public final class Constants {
         elevConfigs.Slot0.kI = 0.0;  
         elevConfigs.Slot0.kD = 0.0;  
         elevMMConfigs.MotionMagicCruiseVelocity = 120;    
-        elevMMConfigs.MotionMagicAcceleration = 148;
+        elevMMConfigs.MotionMagicAcceleration = 160;
         elevMMConfigs.MotionMagicExpo_kA = 0.10000000149011612;
         elevMMConfigs.MotionMagicExpo_kV =0.11999999731779099; 
     }
