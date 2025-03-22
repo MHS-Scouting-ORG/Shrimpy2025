@@ -35,7 +35,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
     coralPivotPidController = new PIDController(CoralConstants.kPIVOT_P, CoralConstants.kPIVOT_I, CoralConstants.kPIVOT_D);
     coralPivotPidController.setTolerance(3);
-
+    resetCoralPivotEnc();
   }
 
   public boolean getPivotLimitSwitch() {
@@ -98,7 +98,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
     }
 
     if (getPivotLimitSwitch()) {
-      resetCoralPivotEnc();
+      // resetCoralPivotEnc();
       if (command < 0) {
         command = 0;
       }

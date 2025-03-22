@@ -182,10 +182,12 @@ public class RobotContainer {
 
     // SCORING W/O DEALGIFYING 
     // new JoystickButton(joystick, 7).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub));
-    new JoystickButton(joystick, 4).onTrue(new L4AutomaticCommand(elevatorSub, coralPivotSub, algaePivotSub, coralIntakeSub));  
+    new JoystickButton(joystick, 7).onTrue(new L4AutomaticCommand(elevatorSub, coralPivotSub, algaePivotSub, coralIntakeSub));  
     
-    new JoystickButton(joystick, 7).onTrue(new L3AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
-    new JoystickButton(joystick, 9).onTrue(new L2AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
+    new JoystickButton(joystick, 9).onTrue(new L3AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
+    new JoystickButton(joystick, 11).onTrue(new L2AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
+
+    new JoystickButton(joystick, 6).onTrue(new L2State(elevatorSub)); 
 
     // DEALGIFY 
     new JoystickButton(joystick, 8).onTrue(new HighDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
@@ -203,11 +205,12 @@ public class RobotContainer {
       () -> !algaeShooterSubsystem.ballHeld).onTrue(
         new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); //FIXME tucking test
 
-    // 
-
     // ALGAE INTAKE 
     new JoystickButton(joystick, 2).whileTrue(new AlgaeIntake(algaeShooterSubsystem)); 
     new JoystickButton(joystick, 2).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
+
+    // MANUAL TUCK PIVOT 
+    new JoystickButton(joystick, 4).onTrue(new L2AndL3PosCommand(coralPivotSub)); 
 
     /* * * TRIGGERS * * */
     intakeCoralTrigger.whileTrue(new InstantCommand(() -> lights.setSolidColor(255, 239, 2))); 
