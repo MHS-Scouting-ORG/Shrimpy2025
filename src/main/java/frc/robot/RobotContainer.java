@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -75,6 +76,13 @@ public class RobotContainer {
     private final SwerveRequest.RobotCentric driveRobotCentric = new SwerveRequest.RobotCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+
+    private final SwerveRequest.FieldCentricFacingAngle driveFieldFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
+            .withHeadingPID(5, 0, 0)
+            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+
+    private double desiredAngle = 0; 
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -146,11 +154,14 @@ public class RobotContainer {
 
     /* * * TESTING * * */
     // ALIGN REEF FIELD CENTRIC 
-    xbox.back().whileTrue(new AlignModeCommand(drivetrain, 
-      () -> xbox.getLeftY(), 
-      () -> xbox.getLeftX(), 
-      () -> xbox.getRightX()
-    )); 
+    xbox.back().and(() -> LimelightHelpers.getFiducialID("limelight") != -1).whileTrue(
+      drivetrain.applyRequest(
+        () -> driveFieldFacingAngle
+        .withVelocityX(-xbox.getLeftY())
+        .withVelocityY(-xbox.getLeftX())
+        .withTargetDirection(Rotation2d.fromDegrees(getDesiredHeading()))
+      )
+    );
 
     //LIGHTS FOR ALIGN MODE 
     xbox.x().whileTrue(new InstantCommand(() -> lights.setSolidColor(0, 2, 61))); 
@@ -249,5 +260,25 @@ public class RobotContainer {
     NamedCommands.registerCommand("fullTuck", new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub));
 
     NamedCommands.registerCommand("elevDealgify", new StorageState(elevatorSub));
+  }
+
+  public double getDesiredHeading() {
+    double tagID = LimelightHelpers.getFiducialID("limelight"); 
+
+    if (tagID == 20 || tagID == 11) { // FAR A 
+      return 240; 
+      } else if (tagID == 21 || tagID == 10) { // FAR B 
+      return 180; 
+      } else if (tagID == 22 || tagID == 9) { // FAR C 
+      return 120; 
+      } else if (tagID == 19 || tagID == 6) { // CLOSE A 
+      return 300; 
+      } else if (tagID == 18 || tagID == 7) { // CLOSE B 
+      return 0; 
+      } else if (tagID == 17 || tagID == 8) { // CLOSE C 
+      return 60; 
+      } else {
+        return 0; 
+      }
   }
 }
