@@ -85,22 +85,16 @@ public class AlignModeCommand extends Command {
     double zSpeed = zSupp.getAsDouble(); 
 
     if (tagID == 20 || tagID == 11) { // FAR A 
-    //   zSpeed = pid.calculate(120, Units.radiansToDegrees(drivetrain.getRotation3d().getZ()));
     desiredHeading = 240; 
     } else if (tagID == 21 || tagID == 10) { // FAR B 
-    //   zSpeed = pid.calculate(180, Units.radiansToDegrees(drivetrain.getRotation3d().getZ()));
     desiredHeading = 180; 
     } else if (tagID == 22 || tagID == 9) { // FAR C 
-    //   zSpeed = pid.calculate(240, Units.radiansToDegrees(drivetrain.getRotation3d().getZ()));
     desiredHeading = 120; 
     } else if (tagID == 19 || tagID == 6) { // CLOSE A 
-    //   zSpeed = pid.calculate(60, Units.radiansToDegrees(drivetrain.getRotation3d().getZ()));
     desiredHeading = 300; 
     } else if (tagID == 18 || tagID == 7) { // CLOSE B 
-    //   zSpeed = pid.calculate(0, Units.radiansToDegrees(drivetrain.getRotation3d().getZ()));
     desiredHeading = 0; 
     } else if (tagID == 17 || tagID == 8) { // CLOSE C 
-    //   zSpeed = pid.calculate(300, Units.radiansToDegrees(drivetrain.getRotation3d().getZ()));
     desiredHeading = 60; 
     } 
 
