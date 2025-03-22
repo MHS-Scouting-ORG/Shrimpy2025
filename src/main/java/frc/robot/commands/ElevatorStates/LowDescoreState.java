@@ -24,7 +24,7 @@ public class LowDescoreState extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevSub.setSetpoint(18);
+    elevSub.setSetpoint(19);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

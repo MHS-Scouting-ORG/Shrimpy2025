@@ -114,7 +114,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   // returns true when within an encoder tolerance
   public boolean atSetpoint() {
-    return Math.abs(getEncoder() - setpoint) <= 5;
+    return Math.abs(getEncoder() - setpoint) <= 1;
   }
 
   @Override
