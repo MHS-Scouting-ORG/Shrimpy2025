@@ -14,10 +14,10 @@ public class FullTuckCommand extends SequentialCommandGroup {
 
   public FullTuckCommand(ElevatorSubsystem elevatorSubsystem, AlgaePivot algaePivot, CoralPivotSubsystem coralPivotSubsystem) {
     addCommands(
+      new L2AndL3PosCommand(coralPivotSubsystem), 
       new ParallelCommandGroup(
         new StorageState(elevatorSubsystem), 
-        new Tuck(algaePivot), 
-        new L2AndL3PosCommand(coralPivotSubsystem)
+        new Tuck(algaePivot)
       ), 
     new TuckState(elevatorSubsystem)
     );
