@@ -134,6 +134,12 @@
           "data": {
             "name": "fullTuck"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "barge-out"
+          }
         }
       ]
     }
