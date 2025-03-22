@@ -110,6 +110,7 @@ public class RobotContainer {
     private final Lights lights = new Lights(); 
 
     //LIGHT TRIGGER 
+    // public final Trigger rightTrigger = new Trigger(() -> xbox.right)
     public final Trigger intakeCoralTrigger = new Trigger(() -> coralIntakeSub.getOpticalSensor());
 
     public final Trigger readyToShoot = new Trigger(() -> (coralPivotSub.atSetpoint() && algaePivotSub.isAtSetpoint() && elevatorSub.atSetpoint() && elevatorSub.getEncoder() > 0)); 
@@ -154,7 +155,7 @@ public class RobotContainer {
 
     /* * * TESTING * * */
     // ALIGN REEF FIELD CENTRIC 
-    xbox.back().and(() -> LimelightHelpers.getFiducialID("limelight") != -1).whileTrue(
+    xbox.rightTrigger().and(() -> LimelightHelpers.getFiducialID("limelight") != -1).whileTrue(
       drivetrain.applyRequest(
         () -> driveFieldFacingAngle
         .withVelocityX(-xbox.getLeftY())
