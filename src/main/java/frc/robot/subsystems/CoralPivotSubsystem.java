@@ -63,7 +63,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
   }
 
   public void setCoralPivotSpeed(double val) {
-    coralPivot.set(val);
+    command = val;
   }
 
   public void stop() {
@@ -95,8 +95,6 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
       prevError = currError;
 
-    }else{
-      command = 0;
     }
 
     if (getPivotLimitSwitch()) {
@@ -106,7 +104,8 @@ public class CoralPivotSubsystem extends SubsystemBase {
       }
     }
 
-    setCoralPivotSpeed(command);
+    // setCoralPivotSpeed(command);
+    coralPivot.set(command);
 
     SmartDashboard.putNumber("[C] Pivot Position", getCoralPivotEnc());
     SmartDashboard.putNumber("[C] Pivot PID setpoint", getCoralPivotSetpoint());
