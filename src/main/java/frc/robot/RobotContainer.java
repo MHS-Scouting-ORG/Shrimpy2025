@@ -163,7 +163,11 @@ public class RobotContainer {
       )
     );
 
-    //LIGHTS FOR ALIGN MODE 
+    // LIGHTS FOR ROTATION ALIGN 
+    xbox.back().whileTrue(new InstantCommand(() -> lights.setSolidColor(255,0,255)));
+    xbox.back().whileFalse(new InstantCommand(() -> lights.off())); 
+
+    //LIGHTS FOR ROBOT CENTRIC 
     xbox.x().whileTrue(new InstantCommand(() -> lights.setSolidColor(0, 2, 61))); 
     xbox.x().whileFalse(new InstantCommand(() -> lights.off())); 
 
