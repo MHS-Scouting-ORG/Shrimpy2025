@@ -19,7 +19,7 @@ public class Barge extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    algaePivotSub.toSetpoint(23);
+    algaePivotSub.toSetpoint(24);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
