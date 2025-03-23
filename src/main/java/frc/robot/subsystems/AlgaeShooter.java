@@ -1,80 +1,71 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-// neo 550 for algae intake
+// neo 550 for algea intake
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.algaeShooterConstants;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+
  
 public class AlgaeShooter extends SubsystemBase {
-  private final TalonFX algaeMotor = new TalonFX(16); 
-  public boolean ballHeld = false;
+    
+    private final TalonFX algaeMotor;
+    public boolean algaeHeld;
+    public boolean algaeIntakeQuery;
 
-  
+  public AlgaeShooter() {
+    algaeMotor = new TalonFX(algaeShooterConstants.algaeShooterID);
+    algaeHeld = false;
+    algaeIntakeQuery = false;
+  }
 
   public void algaeIntake() {
     algaeMotor.setNeutralMode(NeutralModeValue.Coast);
-    TalonFXConfiguration algaeConfig = new TalonFXConfiguration();
-    algaeConfig.CurrentLimits.StatorCurrentLimit = 120;
-    ballHeld = false;
-      if (!ballHeld) {
-          algaeMotor.set(-1); // Full speed intake
+    algaeHeld = false;
+    algaeIntakeQuery = true;
+      if (!algaeHeld) {
+          algaeMotor.set(algaeShooterConstants.algaeIntakeSpeed); // Full speed intake
       }
   }
 
-//   public void checkMotorStall() {
-//       if (algaeMotor.getStatorCurrent().getValueAsDouble() > 20 && algaeMotor.get() < -0.08) {  //check the direction )    // replace with .getOutPutCurrent for sparks
-//           algaeMotor.set(0); // Stop the motor
-//           algaeMotor.setNeutralMode(NeutralModeValue.Brake);
-//           ballHeld = true;
-//       } else {
-//           ballHeld = false;
-//           algaeMotor.setNeutralMode(NeutralModeValue.Coast);
-//       }
-//   }
-
-public boolean checkMotorStall() {
-    if (algaeMotor.getStatorCurrent().getValueAsDouble() > 30 && algaeMotor.get() < -0.08) {  //check the direction )    // replace with .getOutPutCurrent for sparks
-        algaeMotor.set(0); // Stop the motor
-        algaeMotor.setNeutralMode(NeutralModeValue.Brake);
-        ballHeld = true;
-        return true;
-    } else {
-        ballHeld = false;
-        algaeMotor.setNeutralMode(NeutralModeValue.Coast);
-        return false;
-    }
-}
-
+  public void checkMotorStall() {
+      if (algaeMotor.getStatorCurrent().getValueAsDouble() > algaeShooterConstants.algaeCurrentThreshold && algaeMotor.get() < -0.1) {  //check the direction )    // replace with .getOutPutCurrent for sparks
+          algaeHeld = true; // Global variable for compatability
+          idleHold();
+      }
+  }
+  private void idleHold() {
+      if (algaeHeld) {
+          algaeMotor.set(algaeShooterConstants.algaeHoldSpeed); // Hold the algae
+          algaeMotor.setNeutralMode(NeutralModeValue.Brake);
+      }
+  }
   public void stopIntake() {
-      algaeMotor.set(0); // Stop the motor
+        algaeMotor.set(0); // Stop the motor
+        algaeMotor.setNeutralMode(NeutralModeValue.Coast);
+        algaeHeld = false;
+        algaeIntakeQuery = false;
+
   }
   public void algaeOutake() {
-    
-        ballHeld = false;
-        algaeMotor.set(1); // Reverse to shoot the algae
-      
-
-  }
-
-  public void idle() {
-    algaeMotor.set(0.2);
+        algaeHeld = false;
+        algaeIntakeQuery = false;
+        algaeMotor.setNeutralMode(NeutralModeValue.Coast);
+        algaeMotor.set(algaeShooterConstants.algaeOutakeSpeed); // Reverse to shoot the algae
   }
 
   @Override
   public void periodic() {
-    //   checkMotorStall(); // Check if the motor is stalled
-    
-      SmartDashboard.putBoolean("ballHeld", ballHeld); // Display if the ball is held
+    if (algaeIntakeQuery) {
+        checkMotorStall(); // Check if the motor is stalled
+    }
+      
+      SmartDashboard.putBoolean("algaeHeld", algaeHeld); // Display if the algae is held
       SmartDashboard.putNumber("current", algaeMotor.getStatorCurrent().getValueAsDouble()); // replace with .getOutPutCurrent for sparks
   }
 }

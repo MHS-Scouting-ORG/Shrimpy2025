@@ -9,6 +9,13 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public final class Constants {
+  public static class algaeShooterConstants {
+    public static final int algaeShooterID = 16;  // can id for algae shooter 
+    public static final double algaeIntakeSpeed = -1; // default -1 for full speed (duty cycle)
+    public static final double algaeOutakeSpeed = 0.3; // default 1 for full speed (duty cycle)
+    public static final double algaeCurrentThreshold = 45;  //default 20 (amps), increase if triggers unintentionally from motor ramp
+    public static final double algaeHoldSpeed = -0.1; //default 0, set negative for active holding (duty cycle)
+  }
 
   public static class AlgaePivotConstants {
     //IDs

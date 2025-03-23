@@ -10,7 +10,7 @@ import frc.robot.subsystems.AlgaeShooter;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgaeIntake extends Command {
   /** Creates a new AlgeaIntake. */
-  private AlgaeShooter algaeIntakeSub;
+  AlgaeShooter algaeIntakeSub;
 
   public AlgaeIntake(AlgaeShooter newalgaeIntakeSub) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,11 +32,13 @@ public class AlgaeIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     algaeIntakeSub.stopIntake();
+    algaeIntakeSub.algaeIntakeQuery = false;
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return algaeIntakeSub.checkMotorStall();
+    return false;
   }
 }

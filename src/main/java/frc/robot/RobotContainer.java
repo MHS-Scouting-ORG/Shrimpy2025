@@ -111,7 +111,7 @@ public class RobotContainer {
 
     //LIGHT TRIGGER 
     // public final Trigger rightTrigger = new Trigger(() -> xbox.right)
-    public final Trigger algaeHeld = new Trigger(() -> algaeShooterSubsystem.ballHeld); 
+    public final Trigger algaeHeld = new Trigger(() -> algaeShooterSubsystem.algaeHeld); 
 
     public final Trigger intakeCoralTrigger = new Trigger(() -> coralIntakeSub.getOpticalSensor());
 
@@ -216,16 +216,15 @@ public class RobotContainer {
 
     // TUCKING TEST 
     new JoystickButton(joystick, 12).and(
-      () -> algaeShooterSubsystem.ballHeld).onTrue(
+      () -> algaeShooterSubsystem.algaeHeld).onTrue(
         new TuckWithAlgaeCommand(elevatorSub, algaePivotSub, coralPivotSub)); //FIXME tucking test
 
     new JoystickButton(joystick, 12).and(
-      () -> !algaeShooterSubsystem.ballHeld).onTrue(
+      () -> !algaeShooterSubsystem.algaeHeld).onTrue(
         new FullTuckCommand(elevatorSub, algaePivotSub, coralPivotSub)); //FIXME tucking test
 
     // ALGAE INTAKE 
-    new JoystickButton(joystick, 2).whileTrue(new AlgaeIntake(algaeShooterSubsystem)); 
-    new JoystickButton(joystick, 2).whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake()));
+    new JoystickButton(joystick, 2).onTrue(new AlgaeIntake(algaeShooterSubsystem)); 
 
     // MANUAL TUCK PIVOT 
     new JoystickButton(joystick, 4).onTrue(new L2AndL3PosCommand(coralPivotSub)); 
