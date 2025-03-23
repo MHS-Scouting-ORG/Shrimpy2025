@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.PIDController;
@@ -31,7 +32,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
     config = new SparkMaxConfig();
     config.idleMode(SparkBaseConfig.IdleMode.kBrake);
     config.limitSwitch.forwardLimitSwitchEnabled(false);
-    coralPivot.configure(config, null, null);
+    coralPivot.configure(config, null, PersistMode.kPersistParameters);
 
     coralPivotPidController = new PIDController(CoralConstants.kPIVOT_P, CoralConstants.kPIVOT_I, CoralConstants.kPIVOT_D);
     coralPivotPidController.setTolerance(3);

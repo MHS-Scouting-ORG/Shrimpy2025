@@ -111,6 +111,8 @@ public class RobotContainer {
 
     //LIGHT TRIGGER 
     // public final Trigger rightTrigger = new Trigger(() -> xbox.right)
+    public final Trigger algaeHeld = new Trigger(() -> algaeShooterSubsystem.ballHeld); 
+
     public final Trigger intakeCoralTrigger = new Trigger(() -> coralIntakeSub.getOpticalSensor());
 
     public final Trigger readyToShoot = new Trigger(() -> (coralPivotSub.atSetpoint() && algaePivotSub.isAtSetpoint() && elevatorSub.atSetpoint() && elevatorSub.getEncoder() > 0)); 

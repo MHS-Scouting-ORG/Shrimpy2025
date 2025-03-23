@@ -66,6 +66,10 @@ public boolean checkMotorStall() {
 
   }
 
+  public void idle() {
+    algaeMotor.set(0.2);
+  }
+
   @Override
   public void periodic() {
     //   checkMotorStall(); // Check if the motor is stalled
