@@ -99,7 +99,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
     }
 
     if (getPivotLimitSwitch()) {
-      // resetCoralPivotEnc();
+      resetCoralPivotEnc();
       if (command < 0) {
         command = 0;
       }

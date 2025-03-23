@@ -234,6 +234,11 @@ public class RobotContainer {
     intakeCoralTrigger.whileTrue(new InstantCommand(() -> lights.setSolidColor(255, 239, 2))); 
     intakeCoralTrigger.whileFalse(new InstantCommand( () -> lights.off()));
 
+
+
+
+    // new JoystickButton(joystick, 5).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub)); 
+
     // readyToShoot.whileTrue(new InstantCommand(() -> lights.setSolidColor(124,252,0)));
 
   }
