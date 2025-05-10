@@ -24,7 +24,7 @@ public class TuckState extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevSub.setSetpoint(-1);
+    elevSub.setSetpoint(-0.25);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -138,7 +138,7 @@ public class RobotContainer {
     // ZERO HEADING 
     xbox.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric())); // zero heading 
 
-    // FIELD CENTRIC DEFAULT COMMAND 
+    //FIELD CENTRIC DEFAULT COMMAND 
     drivetrain.setDefaultCommand(
       drivetrain.applyRequest(() ->
         drive.withVelocityX(-xbox.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
@@ -150,9 +150,9 @@ public class RobotContainer {
     // //ROBOT CENTRIC / ALIGN REEF 
     xbox.x().whileTrue(
       drivetrain.applyRequest(() -> 
-          driveRobotCentric.withVelocityX(-xbox.getLeftY() * MaxSpeed * 0.5)
-          .withVelocityY(-xbox.getLeftX() * MaxSpeed * 0.5)
-          .withRotationalRate(-xbox.getRightX() * MaxAngularRate * 0.75))
+          driveRobotCentric.withVelocityX(-xbox.getLeftY() * MaxSpeed * 0.15)
+          .withVelocityY(-xbox.getLeftX() * MaxSpeed * 0.15)
+          .withRotationalRate(-xbox.getRightX() * MaxAngularRate * 0.15))
     );
 
     /* * * TESTING * * */
