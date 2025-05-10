@@ -182,7 +182,7 @@ public class RobotContainer {
     xbox.b().whileTrue(new AlgaeShoot(algaeShooterSubsystem)); 
     xbox.b().whileFalse(new InstantCommand(() -> algaeShooterSubsystem.stopIntake())); 
 
-    // CORAL INTAKE 
+    // CORAL INTAKE a
     xbox.rightBumper().whileTrue(new CoralIntakeCommand(coralIntakeSub));
     xbox.rightBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
     // CORAL OUTTAKE 
@@ -190,7 +190,9 @@ public class RobotContainer {
     xbox.leftBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
 
     // BARGE
-    // xbox.y().onTrue(new BargeSequenceCommand(elevatorSub, algaePivotSub));
+    xbox.y().onTrue(new BargeSequenceCommand(elevatorSub, algaePivotSub));
+    // xbox.y().onTrue(new SequentialCommandGroup(new L3State(elevatorSub), new Barge(algaePivotSub)));
+
 
     /////////////////////////////////
     ///     OPERATOR CONTROLS     ///
