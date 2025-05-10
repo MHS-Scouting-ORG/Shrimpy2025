@@ -37,6 +37,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import frc.robot.Telemetry;
+import frc.robot.commands.AlgaePivotStates.Barge;
 import frc.robot.commands.AlgaePivotStates.Storage;
 import frc.robot.commands.AlgaePivotStates.Tuck;
 import frc.robot.commands.AlgaeShooterStates.AlgaeIntake;
@@ -141,13 +142,13 @@ public class RobotContainer {
     //FIELD CENTRIC DEFAULT COMMAND 
     drivetrain.setDefaultCommand(
       drivetrain.applyRequest(() ->
-        drive.withVelocityX(-xbox.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-          .withVelocityY(-xbox.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-          .withRotationalRate(-xbox.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        drive.withVelocityX(-xbox.getLeftY() * MaxSpeed * 0.3) // Drive forward with negative Y (forward)
+          .withVelocityY(-xbox.getLeftX() * MaxSpeed * 0.3) // Drive left with negative X (left)
+          .withRotationalRate(-xbox.getRightX() * MaxAngularRate * 0.5) // Drive counterclockwise with negative X (left)
       )
     );
 
-    // //ROBOT CENTRIC / ALIGN REEF 
+    // //ROBOT CENTRIC 
     xbox.x().whileTrue(
       drivetrain.applyRequest(() -> 
           driveRobotCentric.withVelocityX(-xbox.getLeftY() * MaxSpeed * 0.15)
@@ -157,14 +158,14 @@ public class RobotContainer {
 
     /* * * TESTING * * */
     // ALIGN REEF FIELD CENTRIC 
-    xbox.rightTrigger().and(() -> LimelightHelpers.getFiducialID("limelight") != -1).whileTrue(
-      drivetrain.applyRequest(
-        () -> driveFieldFacingAngle
-        .withVelocityX(-xbox.getLeftY())
-        .withVelocityY(-xbox.getLeftX())
-        .withTargetDirection(Rotation2d.fromDegrees(getDesiredHeading()))
-      )
-    );
+    // xbox.rightTrigger().and(() -> LimelightHelpers.getFiducialID("limelight") != -1).whileTrue(
+    //   drivetrain.applyRequest(
+    //     () -> driveFieldFacingAngle
+    //     .withVelocityX(-xbox.getLeftY())
+    //     .withVelocityY(-xbox.getLeftX())
+    //     .withTargetDirection(Rotation2d.fromDegrees(getDesiredHeading()))
+    //   )
+    // );
 
     // LIGHTS FOR ROTATION ALIGN 
     xbox.back().whileTrue(new InstantCommand(() -> lights.setSolidColor(255,0,255)));
@@ -189,7 +190,7 @@ public class RobotContainer {
     xbox.leftBumper().whileFalse(new InstantCommand(() -> coralIntakeSub.stopIntake()));
 
     // BARGE
-    xbox.y().onTrue(new BargeSequenceCommand(elevatorSub, algaePivotSub));
+    // xbox.y().onTrue(new BargeSequenceCommand(elevatorSub, algaePivotSub));
 
     /////////////////////////////////
     ///     OPERATOR CONTROLS     ///
@@ -199,16 +200,18 @@ public class RobotContainer {
     new JoystickButton(joystick, 3).onTrue(new ProcessorSequenceCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
 
     // SCORING W/O DEALGIFYING 
+    new JoystickButton(joystick, 7).onTrue(new L4AutomaticCommand(elevatorSub, coralPivotSub, algaePivotSub, coralIntakeSub)); 
     // new JoystickButton(joystick, 7).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub));
-    new JoystickButton(joystick, 7).onTrue(new L4AutomaticCommand(elevatorSub, coralPivotSub, algaePivotSub, coralIntakeSub));  
     
-    new JoystickButton(joystick, 9).onTrue(new L3AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
+    // new JoystickButton(joystick, 9).onTrue(new L3State(elevatorSub)); 
+    new JoystickButton(joystick, 9).onTrue(new L3AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub));
     new JoystickButton(joystick, 11).onTrue(new L2AutomaticCommand(elevatorSub, coralIntakeSub, algaePivotSub, coralPivotSub)); 
 
-    new JoystickButton(joystick, 6).onTrue(new L2State(elevatorSub)); 
+    // new JoystickButton(joystick, 6).onTrue(new L2State(elevatorSub)); 
 
     // DEALGIFY 
-    new JoystickButton(joystick, 8).onTrue(new HighDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
+    // new JoystickButton(joystick, 8).onTrue(new HighDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
+    new JoystickButton(joystick, 8).onTrue(new SequentialCommandGroup(new L3State(elevatorSub), new Barge(algaePivotSub)));
     new JoystickButton(joystick, 10).onTrue(new LowDealgifyCommand(elevatorSub, algaePivotSub, coralPivotSub)); 
 
     // ALGAE TUCK 
@@ -236,7 +239,7 @@ public class RobotContainer {
 
 
 
-    // new JoystickButton(joystick, 5).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub)); 
+    // new JoystickButton(joystick, 5).onTrue(new L4SequenceCommand(elevatorSub, coralPivotSub));
 
     // readyToShoot.whileTrue(new InstantCommand(() -> lights.setSolidColor(124,252,0)));
 
